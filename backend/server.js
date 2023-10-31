@@ -18,7 +18,8 @@ app.get('/', (req, res) => { res.status(200).render('home'); });
 
 function logger(req, res, next) {
 
-    console.log(req.hostname + ' ' + req.method + ''+ req.path);
+    const clientIP = req.headers['x-forwarded-for'] || req.socket.remoteAddress || null;
+    console.log(clientIP + ' ' + req.method + ''+ req.path);
     next();
 }
 
