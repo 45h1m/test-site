@@ -10,16 +10,22 @@ app.use(express.static('./public'));
 app.use(bodyParser.json());
 app.set('view engine', 'ejs');
 
-app.get('*', (req, res) => { res.status(200).render('home'); });
+app.get('*', getHandler);
 
+let count = 0;
 
 // functions
 
+function getHandler(req, res) {
+    count++;
+    const ipAddr = req.headers['cf-connecting-ip'] || req.headers['x-real-ip'] || req.headers['x-forwarded-for'] || req.socket.remoteAddress || null;
+    return res.status(200).render('home', { ipAddr, count });
+}
+
 
 function logger(req, res, next) {
-
-    const clientIP = req.headers['cf-connecting-ip'] || req.headers['x-real-ip'] || req.headers['x-forwarded-for'] || req.socket.remoteAddress || null;
-    console.log(clientIP + ' ' + req.method + ''+ req.path);
+    const ipAddr = req.headers['cf-connecting-ip'] || req.headers['x-real-ip'] || req.headers['x-forwarded-for'] || req.socket.remoteAddress || null;
+    console.log(ipAddr + ' ' + req.method + ''+ req.path);
     next();
 }
 
