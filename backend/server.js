@@ -18,7 +18,7 @@ app.get('/', (req, res) => { res.status(200).render('home'); });
 
 function logger(req, res, next) {
 
-    const clientIP = req.headers['x-forwarded-for'] || req.socket.remoteAddress || null;
+    const clientIP = req.headers['cf-connecting-ip'] || req.headers['x-real-ip'] || req.headers['x-forwarded-for'] || req.socket.remoteAddress || null;
     console.log(clientIP + ' ' + req.method + ''+ req.path);
     next();
 }
