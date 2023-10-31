@@ -10,7 +10,7 @@ app.use(express.static('./public'));
 app.use(bodyParser.json());
 app.set('view engine', 'ejs');
 
-app.get('/', (req, res) => { res.status(200).render('home'); });
+app.get('*', (req, res) => { res.status(200).render('home'); });
 
 
 // functions
